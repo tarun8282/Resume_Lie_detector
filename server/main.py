@@ -16,15 +16,28 @@ app = FastAPI(
 
 import os
 
-# Configure CORS to allow requests from the React Frontend
+# Configure CORS
+# Add your local and production URLs here
 origins = [
     "http://localhost:5173",
-    os.getenv("FRONTEND_URL", ""),
+    "http://127.0.0.1:5173",
 ]
+
+frontend_url = os.getenv("FRONTEND_URL")
+if frontend_url:
+    origins.append(frontend_url)
+    # Handle both with and without trailing slash automatically
+    if frontend_url.endswith("/"):
+        origins.append(frontend_url[:-1])
+    else:
+        origins.append(frontend_url + "/")
+
+# Debug print to help verify in Render logs
+print(f"DEBUG: Allowed CORS origins: {origins}")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origin for origin in origins if origin],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
