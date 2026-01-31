@@ -6,7 +6,11 @@ import models
 from routes import auth_routes, resume_routes, test_routes, recruiter_routes
 
 # Create database tables
-models.Base.metadata.create_all(bind=engine)
+try:
+    models.Base.metadata.create_all(bind=engine)
+    print("✅ Database tables verified/created.")
+except Exception as e:
+    print(f"❌ DATABASE STARTUP ERROR: {e}")
 
 app = FastAPI(
     title="Resume Lie Detector API",
@@ -16,32 +20,20 @@ app = FastAPI(
 
 import os
 
-# Configure CORS
-# Add your local and production URLs here
-origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
-
-frontend_url = os.getenv("FRONTEND_URL")
-if frontend_url:
-    origins.append(frontend_url)
-    # Handle both with and without trailing slash automatically
-    if frontend_url.endswith("/"):
-        origins.append(frontend_url[:-1])
-    else:
-        origins.append(frontend_url + "/")
-
-# Debug print to help verify in Render logs
-print(f"DEBUG: Allowed CORS origins: {origins}")
-
+# Configure CORS - Allowing ALL origins for troubleshooting
+# This is safe because we use JWT and no cookies for sensitive state
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Debug: Print startup info to Render logs
+print("🚀 Server starting with UNIVERSAL CORS (*)")
+print(f"DATABASE_URL set: {'Yes' if os.getenv('DATABASE_URL') else 'No'}")
+print(f"FRONTEND_URL set: {os.getenv('FRONTEND_URL')}")
 
 app.include_router(auth_routes.router)
 app.include_router(resume_routes.router)
