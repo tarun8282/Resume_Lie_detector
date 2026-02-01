@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FileText, ShieldCheck, Cpu, ArrowRight, Activity, CheckCircle2 } from 'lucide-react';
+import { FileText, ShieldCheck, Cpu, ArrowRight, Activity } from 'lucide-react';
 
 const Home = () => {
     return (
@@ -118,19 +118,16 @@ const Home = () => {
                         icon={<FileText size={24} />}
                         title="Document Parsing"
                         desc="Instant extraction of key data points from any PDF format."
-                        delay={0}
                     />
                     <MatteCard
                         icon={<Cpu size={24} />}
                         title="AI Cross-Check"
                         desc="Neural networks verify experience against skill assessments."
-                        delay={1}
                     />
                     <MatteCard
                         icon={<ShieldCheck size={24} />}
                         title="Trust Index"
                         desc="A definitive 0-100 score on candidate authenticity."
-                        delay={2}
                     />
                 </motion.div>
 
@@ -156,7 +153,7 @@ const Home = () => {
 };
 
 // Custom Matte Card Component
-const MatteCard = ({ icon, title, desc, delay }: { icon: React.ReactNode, title: string, desc: string, delay: number }) => (
+const MatteCard = ({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) => (
     <div className="group relative p-8 text-left bg-[#0B0F1A] border border-white/5 hover:border-indigo-500/30 transition-colors duration-500 rounded-xl overflow-hidden">
 
         {/* Hover Gradient Effect */}

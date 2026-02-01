@@ -14,7 +14,6 @@ import {
     BrainCircuit,
     Clock,
     Download,
-    UserCircle,
     LogOut,
     ChevronDown
 } from 'lucide-react';
@@ -27,12 +26,10 @@ const Dashboard = () => {
 
     const [filterSkill, setFilterSkill] = useState('');
     const [sortBy, setSortBy] = useState('date_desc');
-    const [isLoading, setIsLoading] = useState(true);
 
     // Fetch Data Logic
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true);
             try {
                 if (user?.role === 'applicant') {
                     const response = await axios.get(`${API_BASE_URL}/resumes/my-resume`);
@@ -41,9 +38,8 @@ const Dashboard = () => {
                     await fetchApplicants();
                 }
             } catch (error) {
-                console.log("Data fetch error or empty state");
-            } finally {
-                setIsLoading(false);
+                console.error("Error fetching dashboard data:", error);
+                toast.error("Failed to load dashboard data");
             }
         };
         fetchData();
