@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home';
@@ -14,7 +13,6 @@ function App() {
   return (
     <AuthProvider>
       <div className="min-h-screen bg-slate-900 text-slate-100">
-        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
